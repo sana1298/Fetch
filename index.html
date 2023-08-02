@@ -6,6 +6,25 @@
     <title>Document</title>
 </head>
 <body>
-    
+    <h1>FETCH API</h1>
+    <select id="section"></select>
+    <script>
+        let api= 'https://pokeapi.co/api/v2/ability'
+        fetch(api)
+   .then((response) =>response.json())
+   .then((data) =>{console.log(data)
+    data.results.forEach((val)=>
+    {
+        // console.log(name)
+        let section=document.getElementById("section")
+        let option=document.createElement("option")
+        let name=val.name;
+         option.innerHTML=name;
+        section.appendChild(option) 
+        console.log(val)
+    })
+    } )
+    // console.log(api);
+    </script>
 </body>
 </html>
