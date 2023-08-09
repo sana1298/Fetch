@@ -1,8 +1,7 @@
 
 
 let api= 'https://pokeapi.co/api/v2/ability'
-        fetch(api)
-      
+     fetch(api)
    .then((response) =>response.json())
    .then((data) =>{console.log(data)
     data.results.forEach((val)=>
@@ -10,10 +9,25 @@ let api= 'https://pokeapi.co/api/v2/ability'
         // console.log(name)
         let section=document.getElementById("section");
         let option=document.createElement("option");
-        let name=val.name;
-         option.innerHTML=name;
+        // console.log(option)
+        let name1=val.name;
+         option.innerHTML=name1;
         section.appendChild(option) 
-        console.log(val)
+        // console.log(val)  
+    })
+    section.addEventListener("change", async()=>{
+        para.innerHTML=section.value;
+
+        const selectedAbilityName = section.value;
+                    const selectedAbility =data.results.find(ability => ability.name === selectedAbilityName);
+
+                    if (selectedAbility) {
+                        const abilityData = await fetchAbilityData(selectedAbility.url);
+                        console.log(selectedAbility.url)
+                        const urlValue = document.createElement("p");
+                        urlValue.innerText = abilityData.effect_entries[0].short_effect;
+                        para.appendChild(urlValue);
+                    }
     })
     })
     .catch(error=>{
@@ -29,3 +43,14 @@ let api= 'https://pokeapi.co/api/v2/ability'
           section.style.display="none";
     
     } )
+    async function fetchAbilityData(url) {
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`API returned status code ${response.status}`);
+            }
+            return response.json();
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
